@@ -11,7 +11,8 @@ services:
     volumes:
       - /opt/dockers/jellyfin/config:/config
       - /opt/dockers/jellyfin/cache:/cache
-      - /midia:/data/midias
+      - /homeserver/midia/filmes:/media/movies
+      - /homeserver/midia/series:/media/series
     ports:
       - 8096:8096
     restart: unless-stopped
