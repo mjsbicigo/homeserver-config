@@ -148,7 +148,7 @@ homeserver-config/
 
 ---
 
-## 5. Guia de implantação passo a passo
+## 6. Guia de implantação passo a passo
 
 ### Passo 1 — Preparação do sistema operacional
 
