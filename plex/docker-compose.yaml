@@ -13,5 +13,6 @@ services:
       # - PLEX_CLAIM= # (Opcional) Insira seu token de reivindicação obtido em https://plex.tv/claim
     volumes:
       - /opt/dockers/plex/config:/config
-      - /midia:/data/midias
+      - /homeserver/midia/filmes:/media/movies
+      - /homeserver/midia/series:/media/series
     restart: unless-stopped
