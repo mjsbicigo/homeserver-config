@@ -1,0 +1,57 @@
+version: "3.8"
+
+name: immich
+
+services:
+  immich-server:
+    container_name: immich_server
+    image: ghcr.io/immich-app/immich-server:release
+    volumes:
+      - /opt/dockers/immich/uploads:/usr/src/app/upload
+      - /etc/localtime:/etc/localtime:ro
+    environment:
+      - DB_HOSTNAME=immich-postgres
+      - DB_USERNAME=postgres
+      - DB_PASSWORD=immich_secure_db_pass
+      - DB_DATABASE_NAME=immich
+      - REDIS_HOSTNAME=immich-redis
+    ports:
+      - "2283:2283"
+    depends_on:
+      - immich-postgres
+      - immich-redis
+    restart: unless-stopped
+
+  immich-machine-learning:
+    container_name: immich_machine_learning
+    image: ghcr.io/immich-app/immich-machine-learning:release
+    volumes:
+      - /opt/dockers/immich/model-cache:/cache
+    restart: unless-stopped
+
+  immich-redis:
+    container_name: immich_redis
+    image: docker.io/redis:6.2-alpine
+    healthcheck:
+      test: ["CMD-SHELL", "redis-cli ping | grep PONG"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+  immich-postgres:
+    container_name: immich_postgres
+    image: tensorchord/pgvecto-rs:pg14-v0.2.0
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=immich_secure_db_pass
+      - POSTGRES_DB=immich
+      - POSTGRES_INITDB_ARGS=--data-checksums
+    volumes:
+      - /opt/dockers/immich/postgres:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d immich"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
