@@ -1,0 +1,17 @@
+version: "3.8"
+
+services:
+  plex:
+    image: lscr.io/linuxserver/plex:latest
+    container_name: plex
+    network_mode: host
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=America/Sao_Paulo
+      - VERSION=docker
+      # - PLEX_CLAIM= # (Opcional) Insira seu token de reivindicação obtido em https://plex.tv/claim
+    volumes:
+      - /opt/dockers/plex/config:/config
+      - /midia:/data/midias
+    restart: unless-stopped
