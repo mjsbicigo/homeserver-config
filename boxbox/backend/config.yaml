@@ -2,7 +2,7 @@
 port: 8080
 host: "0.0.0.0"
 
-jwt_secret: "substituido-pela-variavel-de-ambiente"
+jwt_secret: "BOXBOX_JWT_SECRET"
 
 mount_points:
   - name: "home"
