@@ -1,0 +1,25 @@
+
+services:
+  filebrowser:
+    image: ghcr.io/filebrowsernext/filebrowsernext:latest
+    container_name: filebrowser-next
+
+    ports:
+      - "8081:80"
+
+    environment:
+      PUID: "1000"
+      PGID: "1000"
+
+    volumes:
+      # Diretório pessoal e demais conteúdos de /home
+      - /home:/srv/home
+
+      # Discos montados sob /mnt
+      - /mnt:/srv/mnt:rslave
+
+      # Dados persistentes da aplicação
+      - /opt/dockers/filebrowser-next/database:/database
+      - /opt/dockers/filebrowser-next/config:/config
+
+    restart: unless-stopped
