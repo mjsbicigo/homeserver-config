@@ -1,0 +1,37 @@
+
+services:
+  postgres:
+    image: postgres:17
+    container_name: postgres-general
+    restart: unless-stopped
+
+    environment:
+      POSTGRES_USER: postgres_admin
+      POSTGRES_PASSWORD: ${POSTGRES_ADMIN_PASSWORD}
+      POSTGRES_DB: postgres
+
+      TZ: America/Sao_Paulo
+
+    volumes:
+      - /home/docker/postgres/data:/var/lib/postgresql/data
+
+    shm_size: 256mb
+
+    healthcheck:
+      test:
+        - CMD-SHELL
+        - pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 15s
+
+    networks:
+      database_network:
+        aliases:
+          - postgres-general
+
+networks:
+  database_network:
+    external: true
+    name: database_network
