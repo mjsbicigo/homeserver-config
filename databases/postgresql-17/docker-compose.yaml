@@ -2,7 +2,7 @@
 services:
   postgres:
     image: postgres:17
-    container_name: postgres-general
+    container_name: postgres-17
     restart: unless-stopped
 
     environment:
