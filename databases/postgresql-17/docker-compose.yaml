@@ -29,7 +29,7 @@ services:
     networks:
       database_network:
         aliases:
-          - postgres-general
+          - postgres-17
 
 networks:
   database_network:
